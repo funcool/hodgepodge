@@ -9,9 +9,17 @@
   :hooks [leiningen.cljsbuild]
   :plugins [[lein-cljsbuild "1.0.3"]
             [com.cemerick/clojurescript.test "0.3.0"]]
-  :cljsbuild {:builds [{:source-paths ["src" "test"]
-                        :compiler {:output-to "target/cljs/testable.js"
-                                   :optimizations :simple}}]
-              :test-commands {"unit" ["phantomjs" :runner
-                                      "this.literal_js_was_evaluated=true"
-                                      "target/cljs/testable.js"]}})
+  ;:cljsbuild {:builds [{:source-paths ["src" "test"]
+  ;                      :compiler {:output-to "target/cljs/testable.js"
+  ;                                 :optimizations :simple}}]
+  ;            :test-commands {"unit" ["phantomjs" :runner
+  ;                                    "this.literal_js_was_evaluated=true"
+  ;                                    "target/cljs/testable.js"]}})
+  :cljsbuild {
+    :builds [{:id "hodgepodge"
+              :source-paths ["src"]
+              :compiler {
+                :output-to "hodgepodge.js"
+                :output-dir "resources"
+                :optimizations :none
+                :source-map true}}]})
