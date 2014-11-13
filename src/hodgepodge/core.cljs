@@ -48,6 +48,7 @@
        (->
         (.getItem s (serialize key))
         deserialize)))
+  ; TODO arity 3
 )
 
 (defn clear! [storage] (.clear storage))
