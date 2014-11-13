@@ -52,20 +52,21 @@
 
 (defn clear! [storage] (.clear storage))
 
-(clear! local-storage)
-(clear! session-storage)
+(comment
+  (clear! local-storage)
+  (clear! session-storage)
 
-(assert (= 0 (count local-storage)))
-(assert (= 0 (count session-storage)))
+  (assert (= 0 (count local-storage)))
+  (assert (= 0 (count session-storage)))
 
-(assoc! local-storage :foo :bar)
-(assert (= 1 (count local-storage)))
-(assert (= 0 (count session-storage)))
-(print (get local-storage :foo))
+  (assoc! local-storage :foo :bar)
+  (assert (= 1 (count local-storage)))
+  (assert (= 0 (count session-storage)))
 
-(print (js/Date.))
-(print (type (js/Date.)))
-(assoc! local-storage {:foo :bar} (js/Date.))
-(assert (= 2 (count local-storage)))
-(assert (= 0 (count session-storage)))
-(print (get local-storage {:foo :bar}))
+  (dissoc! local-storage :foo)
+  (assert (= 0 (count local-storage)))
+  (assert (= 0 (count session-storage)))
+
+  (assoc! local-storage {:foo :bar} (js/Date.))
+  (assert (= 1 (count local-storage)))
+  (assert (= 0 (count session-storage))))
