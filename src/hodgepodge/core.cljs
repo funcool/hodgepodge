@@ -2,33 +2,16 @@
   (:require [cljs.reader :as reader]))
 
 (enable-console-print!)
-
-; Storages
+(set! *print-readably* false)
 
 (def local-storage js/localStorage)
 (def session-storage js/sessionStorage)
 
-; Serialization & deserialization
+(def serialize pr-str)
 
-(defmulti serialize type)
-(defmethod serialize :default
-   [v]
-   (str v))
+(def deserialize reader/read-string)
 
-(defmethod serialize js/Date
-  [date]
-  (str {:type :js/date
-        :value (.toString date)}))
-
-(defmulti deserialize (comp :type reader/read-string))
-(defmethod deserialize :js/date
-  [v]
-  (let [{:keys [value]} (reader/read-string  v)]
-    (js/Date.  (.parse js/Date value))))
-
-(defmethod deserialize :default
-  [v]
-  (reader/read-string v))
+(defn clear! [storage] (.clear storage))
 
 (extend-type js/Storage
   ICounted
@@ -58,9 +41,7 @@
          not-found)))
 )
 
-(defn clear! [storage] (.clear storage))
-
-(comment
+ (comment
   (clear! local-storage)
   (clear! session-storage)
 
@@ -80,4 +61,14 @@
   (assert (= 1 (count local-storage)))
   (assert (contains? local-storage {:foo :bar}))
   (assert (= 0 (count session-storage)))
+
+  (def val {:bar 42 :timestamp {:bar (js/Date.) :baz :safd :frob #{1 2 3}}})
+  (assoc! local-storage :foo val)
+  (assert (= val (get local-storage :foo)))
+
+  (assoc! local-storage val :foo)
+  (assert (= :foo (get local-storage val)))
+
+  (def date (js/Date.))
+  (assoc! local-storage :date date)
 )
