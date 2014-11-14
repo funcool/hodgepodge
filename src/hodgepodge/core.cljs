@@ -13,6 +13,12 @@
 
 (defn clear! [storage] (.clear storage))
 
+(defn has-key?
+  [storage key]
+  (let [ks (.keys js/Object storage)
+        idx  (.indexOf ks (serialize key))]
+    (>= idx 0)))
+
 (extend-type js/Storage
   ICounted
   (-count [s]
@@ -20,26 +26,21 @@
 
   ITransientAssociative
   (-assoc! [s key val]
-    (.setItem s
-              (serialize key)
-              (serialize val)))
+    (.setItem s (serialize key) (serialize val)))
+  ; TODO: contains-key? for transient associatives
 
   ITransientMap
   (-dissoc! [s key]
-    (.removeItem s
-                 (serialize key)))
+    (.removeItem s (serialize key)))
 
   ILookup
   (-lookup
     ([s key]
-       (some->
-        (.getItem s (serialize key))
-        deserialize))
+       (-lookup s key nil))
     ([s key not-found]
-       (if-let [i (.getItem s (serialize key))]
-         (deserialize i)
+       (if (has-key? s key)
+         (deserialize (.getItem s (serialize key)))
          not-found)))
-
 )
 
  (comment
