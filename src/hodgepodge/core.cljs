@@ -40,16 +40,6 @@
          (deserialize i)
          not-found)))
 
-  IWatchable
-  (-notify-watches [this oldval newval]
-    ; TODO
-    )
-  (-add-watch [this key f]
-    ; TODO
-    )
-  (-remove-watch [this key]
-    ; TODO
-    )
 )
 
  (comment

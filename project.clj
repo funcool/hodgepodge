@@ -16,8 +16,7 @@
   ;                                    "this.literal_js_was_evaluated=true"
   ;                                    "target/cljs/testable.js"]}})
   :cljsbuild {
-    :builds [{:id "hodgepodge"
-              :source-paths ["src"]
+    :builds [{:source-paths ["src"]
               :compiler {
                 :output-to "hodgepodge.js"
                 :output-dir "resources"
