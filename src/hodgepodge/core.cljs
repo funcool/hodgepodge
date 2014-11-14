@@ -3,8 +3,12 @@
 
 (enable-console-print!)
 
+; Storages
+
 (def local-storage js/localStorage)
 (def session-storage js/sessionStorage)
+
+; Serialization & deserialization
 
 (defmulti serialize type)
 (defmethod serialize :default
@@ -45,10 +49,13 @@
   ILookup
   (-lookup
     ([s key]
-       (->
+       (some->
         (.getItem s (serialize key))
-        deserialize)))
-  ; TODO arity 3
+        deserialize))
+    ([s key not-found]
+       (if-let [i (.getItem s (serialize key))]
+         (deserialize i)
+         not-found)))
 )
 
 (defn clear! [storage] (.clear storage))
@@ -62,6 +69,7 @@
 
   (assoc! local-storage :foo :bar)
   (assert (= 1 (count local-storage)))
+  (assert (contains? local-storage :foo))
   (assert (= 0 (count session-storage)))
 
   (dissoc! local-storage :foo)
@@ -70,4 +78,6 @@
 
   (assoc! local-storage {:foo :bar} (js/Date.))
   (assert (= 1 (count local-storage)))
-  (assert (= 0 (count session-storage))))
+  (assert (contains? local-storage {:foo :bar}))
+  (assert (= 0 (count session-storage)))
+)
