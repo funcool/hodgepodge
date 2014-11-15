@@ -7,18 +7,20 @@
   :dependencies [[org.clojure/clojurescript "0.0-2371"]
                  [org.clojure/clojure "1.6.0"]]
   :hooks [leiningen.cljsbuild]
-  :plugins [[lein-cljsbuild "1.0.3"]
-            [com.cemerick/clojurescript.test "0.3.0"]]
-  ;:cljsbuild {:builds [{:source-paths ["src" "test"]
-  ;                      :compiler {:output-to "target/cljs/testable.js"
-  ;                                 :optimizations :simple}}]
-  ;            :test-commands {"unit" ["phantomjs" :runner
-  ;                                    "this.literal_js_was_evaluated=true"
-  ;                                    "target/cljs/testable.js"]}})
+  :plugins [[lein-cljsbuild "1.0.3"]]
   :cljsbuild {
-    :builds [{:source-paths ["src"]
-              :compiler {
-                :output-to "hodgepodge.js"
-                :output-dir "resources"
-                :optimizations :none
-                :source-map true}}]})
+              :builds {:main
+                       {:source-paths ["src"]
+                        :compiler {
+                            :output-to "hodgepodge.js"
+                            :output-dir "resources"
+                            :optimizations :none
+                            :source-map true}}
+                       :test
+                       {:source-paths ["src" "test"]
+                        :compiler {
+                            :output-to "test.js"
+                            :output-dir "resources/test"
+                            :optimizations :advanced}}}
+              :test-commands {"unit" ["phantomjs"
+                                      "resources/test_runner.js"]}})
