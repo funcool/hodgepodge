@@ -56,6 +56,16 @@
   (-assoc! [^js/Storage s key val]
     (set-item s (serialize key) (serialize val)))
 
+  ITransientCollection
+  (-conj! [^js/Storage s ^IMapEntry kv]
+    (assoc! s (key kv) (key kv)))
+  (-persistent! [^js/Storage s]
+    (into {}
+          (for [i (range (count s))
+                :let [k (.key s i)
+                      v (get-item s k)]]
+              [k (deserialize v)])))
+
   ITransientMap
   (-dissoc! [^js/Storage s key]
     (remove-item s (serialize key)))
