@@ -8,8 +8,7 @@
                  [org.clojure/clojure "1.6.0"]]
   :hooks [leiningen.cljsbuild]
   :plugins [[lein-cljsbuild "1.0.3"]]
-  :cljsbuild {
-              :builds {:main
+  :cljsbuild {:builds {:main
                        {:source-paths ["src"]
                         :compiler {
                             :output-to "hodgepodge.js"
