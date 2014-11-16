@@ -1,3 +1,4 @@
 resources/
+docs/index.html
 target/
 .lein-*
