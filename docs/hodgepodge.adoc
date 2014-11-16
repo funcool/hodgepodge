@@ -19,7 +19,8 @@ a transient map for storing and retrieving ClojureScript data structures.
 Alternatives
 ~~~~~~~~~~~~
 
-- The storage-atom library provides an atom backed by local or session storage: https://github.com/alandipert/storage-atom
+- +storage-atom+ provides an atom backed by local or session storage: https://github.com/alandipert/storage-atom
+- +plato+ incrementally persist atom state to local storage:  https://github.com/eneroth/plato
 
 Installation
 ------------
