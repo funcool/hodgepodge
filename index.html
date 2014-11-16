@@ -422,69 +422,112 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rationale">Rationale</h2>
+<h2 id="_rationale">1. Rationale</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>This library is intended as a thin wrapper around the browser&#8217;s storage API for making
+it more Clojurey. Furthermore, it extends the Storage type for treating storage like
+a transient map for storing and retrieving ClojureScript data structures.</p>
 </div>
 <div class="sect2">
-<h3 id="_alternatives">Alternatives</h3>
-<div class="paragraph">
-<p>TODO</p>
+<h3 id="_alternatives">1.1. Alternatives</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>The storage-atom library provides an atom backed by local or session storage: <a href="https://github.com/alandipert/storage-atom" class="bare">https://github.com/alandipert/storage-atom</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_installation">Installation</h2>
+<h2 id="_installation">2. Installation</h2>
 <div class="sectionbody">
-
+<div class="sect2">
+<h3 id="_leiningen">2.1. Leiningen</h3>
+<div class="paragraph">
+<p>The simplest way to use <code>hodgepodge</code> in a Clojure project is by including
+it as a dependency in your <strong><em>project.clj</em></strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">[</span><span class="tok-nv">hodgepodge</span> <span class="tok-s">&quot;0.1-SNAPSHOT&quot;</span><span class="tok-p">]</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_maven">2.2. Maven</h3>
+<div class="paragraph">
+<p>Also, you can use it with Maven. First, add the Clojars repository:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="xml"><span class="tok-nt">&lt;repository&gt;</span>
+    <span class="tok-nt">&lt;id&gt;</span>clojars.org<span class="tok-nt">&lt;/id&gt;</span>
+    <span class="tok-nt">&lt;url&gt;</span>http://clojars.org/repo<span class="tok-nt">&lt;/url&gt;</span>
+<span class="tok-nt">&lt;/repository&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then for <code>hodgepodge</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="xml"><span class="tok-nt">&lt;dependency&gt;</span>
+    <span class="tok-nt">&lt;groupId&gt;</span>hodgepodge<span class="tok-nt">&lt;/groupId&gt;</span>
+    <span class="tok-nt">&lt;artifactId&gt;</span>hodgepodge<span class="tok-nt">&lt;/artifactId&gt;</span>
+    <span class="tok-nt">&lt;version&gt;</span>0.1-SNAPSHOT<span class="tok-nt">&lt;/version&gt;</span>
+<span class="tok-nt">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_storages">Storages</h2>
+<h2 id="_storages">3. Storages</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>At the moment <code>hodgepodge</code> supports local and session storage.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-Clojure" data-lang="Clojure">(require '[hodgepodge.core :refer [local-storage
-                                   session-storage]])</code></pre>
+<pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">require</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-nv">hodgepodge.core</span> <span class="tok-ss">:refer</span> <span class="tok-p">[</span><span class="tok-nv">local-storage</span>
+                                   <span class="tok-nv">session-storage</span><span class="tok-p">]])</span></code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_low_level_api">Low-level API</h2>
+<h2 id="_low_level_api">4. Low-level API</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>hodgepodge</code> has an API that mimics that of web storage, which can be used for writing and reading raw strings.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-Clojure" data-lang="Clojure">(require '[hodgepodge.core :refer [local-storage
-                                   get-item
-                                   set-item
-                                   remove-item
-                                   clear!
-                                   length]])
+<pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">require</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-nv">hodgepodge.core</span> <span class="tok-ss">:refer</span> <span class="tok-p">[</span><span class="tok-nv">local-storage</span>
+                                   <span class="tok-nv">get-item</span>
+                                   <span class="tok-nv">set-item</span>
+                                   <span class="tok-nv">remove-item</span>
+                                   <span class="tok-nv">clear!</span>
+                                   <span class="tok-nv">length</span><span class="tok-p">]])</span>
 
-(clear! local-storage)
+<span class="tok-p">(</span><span class="tok-nf">clear!</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
 
-(length local-storage)
-;; =&gt; 0
+<span class="tok-p">(</span><span class="tok-nf">length</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 0</span>
 
-(set-item local-storage "foo" "bar")
-(length local-storage)
-;; =&gt; 1
+<span class="tok-p">(</span><span class="tok-nf">set-item</span> <span class="tok-nv">local-storage</span> <span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nf">length</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 1</span>
 
-(get-item local-storage "foo")
-;; =&gt; "bar"
+<span class="tok-p">(</span><span class="tok-nf">get-item</span> <span class="tok-nv">local-storage</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;bar&quot;</span>
 
-(remove-item local-storage "foo")
-(length local-storage)
-;; =&gt; 0</code></pre>
+<span class="tok-p">(</span><span class="tok-nf">remove-item</span> <span class="tok-nv">local-storage</span> <span class="tok-s">&quot;foo&quot;</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nf">length</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 0</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -492,57 +535,88 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-Clojure" data-lang="Clojure">(require '[hodgepodge.core :refer [local-storage
-                                   get-item
-                                   set-item
-                                   clear!]])
+<pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">require</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-nv">hodgepodge.core</span> <span class="tok-ss">:refer</span> <span class="tok-p">[</span><span class="tok-nv">local-storage</span>
+                                   <span class="tok-nv">get-item</span>
+                                   <span class="tok-nv">set-item</span>
+                                   <span class="tok-nv">clear!</span><span class="tok-p">]])</span>
 
-(clear! local-storage)
+<span class="tok-p">(</span><span class="tok-nf">clear!</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
 
-(get-item local-storage "foo" 42)
-;; =&gt; 42
+<span class="tok-p">(</span><span class="tok-nf">get-item</span> <span class="tok-nv">local-storage</span> <span class="tok-s">&quot;foo&quot;</span> <span class="tok-mi">42</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 42</span>
 
-(set-item local-storage "foo" "bar")
+<span class="tok-p">(</span><span class="tok-nf">set-item</span> <span class="tok-nv">local-storage</span> <span class="tok-s">&quot;foo&quot;</span> <span class="tok-s">&quot;bar&quot;</span><span class="tok-p">)</span>
 
-(get-item local-storage "foo" 42)
-;; =&gt; "bar"</code></pre>
+<span class="tok-p">(</span><span class="tok-nf">get-item</span> <span class="tok-nv">local-storage</span> <span class="tok-s">&quot;foo&quot;</span> <span class="tok-mi">42</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; &quot;bar&quot;</span></code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_transient_storage">Transient storage</h2>
+<h2 id="_transient_storage">5. Transient storage</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Besides the low-level, raw-string API storages implement several ClojureScript core protocols.</p>
+<p>Besides the low-level, raw-string API, storages implement several ClojureScript core protocols. The keys and values
+that are inserted in the storage are serialized with <code>pr-str</code> and deserialized with the reader.</p>
 </div>
 <div class="paragraph">
-<p>They can be treated as an <code>ITransientAssociative</code>, thus supporting <code>assoc!</code>.</p>
+<p>Storages can be treated as an <code>ITransientAssociative</code> and <code>ITransientMap</code>, thus supporting <code>assoc!</code> and <code>dissoc!</code>. They
+also implement <code>ICounted</code> so they can be +count+ed.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-Clojure" data-lang="Clojure">(require '[hodgepodge.core :refer [local-storage]])
+<pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">require</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-nv">hodgepodge.core</span> <span class="tok-ss">:refer</span> <span class="tok-p">[</span><span class="tok-nv">local-storage</span> <span class="tok-nv">clear!</span><span class="tok-p">]])</span>
 
-(def val {:bar 42 :timestamp (js/Date.)})
-(assoc! local-storage :foo val)
-(assert (= val (get local-storage :foo)))
+<span class="tok-p">(</span><span class="tok-nf">clear!</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nb">val </span><span class="tok-p">{</span><span class="tok-ss">:bar</span> <span class="tok-mi">42</span> <span class="tok-ss">:timestamp</span> <span class="tok-p">(</span><span class="tok-nf">js/Date.</span><span class="tok-p">)})</span>
+<span class="tok-p">(</span><span class="tok-nf">assoc!</span> <span class="tok-nv">local-storage</span> <span class="tok-ss">:foo</span> <span class="tok-nv">val</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">local-storage</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 1</span>
 
-(assoc! local-storage val :foo)
-(assert (= :foo (get local-storage val)))</code></pre>
+<span class="tok-p">(</span><span class="tok-nf">dissoc!</span> <span class="tok-nv">local-storage</span> <span class="tok-ss">:foo</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">local-storage</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; 0</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The implementation of the <code>ILookup</code> protocol let&#8217;s us extract values from the storage.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">require</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-nv">hodgepodge.core</span> <span class="tok-ss">:refer</span> <span class="tok-p">[</span><span class="tok-nv">local-storage</span> <span class="tok-nv">clear!</span><span class="tok-p">]])</span>
+
+<span class="tok-p">(</span><span class="tok-nf">clear!</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nf">assoc!</span> <span class="tok-nv">local-storage</span> <span class="tok-ss">:foo</span> <span class="tok-p">{</span><span class="tok-ss">:bar</span> <span class="tok-mi">42</span><span class="tok-p">})</span>
+<span class="tok-p">(</span><span class="tok-nb">get </span><span class="tok-nv">local-storage</span> <span class="tok-ss">:foo</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; {:bar 42}</span>
+
+<span class="tok-p">(</span><span class="tok-nf">dissoc!</span> <span class="tok-nv">local-storage</span> <span class="tok-ss">:foo</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">count </span><span class="tok-nv">local-storage</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">get </span><span class="tok-nv">local-storage</span> <span class="tok-ss">:foo</span> <span class="tok-ss">:missing</span><span class="tok-p">)</span>
+<span class="tok-c1">;; =&gt; :missing</span></code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_storing_and_retrieving_custom_data_types">5.1. Storing and retrieving custom data types</h3>
+<div class="paragraph">
+<p>TODO Extending the reader with tagger literals</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_license">License</h2>
+<h2 id="_license">6. License</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>Licensed under the BSD 2-clause license. Copyright (c) 2014, Alejandro Gómez.</p>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-11-16 14:36:12 CET
+Last updated 2014-11-16 15:57:29 CET
 </div>
 </div>
 </body>
