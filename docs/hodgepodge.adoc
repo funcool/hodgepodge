@@ -1,23 +1,96 @@
 hodgepodge
 ==========
 
-A idiomatic ClojureScript interface to HTML5 Storage
+:Author: Alejandro Gómez
+
+A idiomatic ClojureScript interface to HTML5 Storage.
 
 Rationale
 ---------
 
+TODO
+
+Alternatives
+~~~~~~~~~~~~
+
+TODO
+
 Installation
 ------------
+
+Storages
+--------
+
+At the moment +hodgepodge+ supports local and session storage.
+
+[source,Clojure]
+----
+(require '[hodgepodge.core :refer [local-storage
+                                   session-storage]])
+----
 
 Low-level API
 -------------
 
-Transient storage
------------------
++hodgepodge+ has an API that mimics that of web storage, which can be used for writing and reading raw strings.
 
 [source,Clojure]
 ----
-(require [hodgepodge.core :refer [local-storage]])
+(require '[hodgepodge.core :refer [local-storage
+                                   get-item
+                                   set-item
+                                   remove-item
+                                   clear!
+                                   length]])
+
+(clear! local-storage)
+
+(length local-storage)
+;; => 0
+
+(set-item local-storage "foo" "bar")
+(length local-storage)
+;; => 1
+
+(get-item local-storage "foo")
+;; => "bar"
+
+(remove-item local-storage "foo")
+(length local-storage)
+;; => 0
+----
+
++get-item+ also supports passing a default argument to return when the given key is missing.
+
+[source,Clojure]
+----
+(require '[hodgepodge.core :refer [local-storage
+                                   get-item
+                                   set-item
+                                   clear!]])
+
+(clear! local-storage)
+
+(get-item local-storage "foo" 42)
+;; => 42
+
+(set-item local-storage "foo" "bar")
+
+(get-item local-storage "foo" 42)
+;; => "bar"
+----
+
+
+Transient storage
+-----------------
+
+Besides the low-level, raw-string API storages implement several ClojureScript core protocols.
+
+They can be treated as an +ITransientAssociative+, thus supporting +assoc!+.
+
+[source,Clojure]
+----
+(require '[hodgepodge.core :refer [local-storage]])
 
 (def val {:bar 42 :timestamp (js/Date.)})
 (assoc! local-storage :foo val)
