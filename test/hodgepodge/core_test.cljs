@@ -1,32 +1,35 @@
 (ns hodgepodge.core-test
-  (:require [hodgepodge.core :as h]))
+  (:require [hodgepodge.core :refer [session-storage local-storage clear!]]))
 
-(h/clear! h/local-storage)
-(h/clear! h/session-storage)
+(enable-console-print!)
 
-(assert (= 0 (count h/local-storage)))
-(assert (= 0 (count h/session-storage)))
+(print "Clearing local and session storage makes them empty")
+(clear! local-storage)
+(clear! session-storage)
+(assert (= 0 (count local-storage)))
+(assert (= 0 (count session-storage)))
 
-(assoc! h/local-storage :foo :bar)
-(assert (= 1 (count h/local-storage)))
-(assert (contains? h/local-storage :foo))
-(assert (= 0 (count h/session-storage)))
+; Local storage
 
-(dissoc! h/local-storage :foo)
-(assert (= 0 (count h/local-storage)))
-(assert (= 0 (count h/session-storage)))
+(print "Keywords can be stored, retrieved and deleted")
+; insert
+(assoc! local-storage :foo :bar)
+(assert (= 1 (count local-storage)))
+(assert (contains? local-storage :foo))
+; fetch
+(assert (= :bar (get local-storage :foo)))
+; delete
+(dissoc! local-storage :foo)
+(assert (= 0 (count local-storage)))
 
-(assoc! h/local-storage {:foo :bar} (js/Date.))
-(assert (= 1 (count h/local-storage)))
-(assert (contains? h/local-storage {:foo :bar}))
-(assert (= 0 (count h/session-storage)))
-
-(def val {:bar 42 :timestamp {:bar (js/Date.) :baz :safd :frob #{1 2 3}}})
-(assoc! h/local-storage :foo val)
-(assert (= val (get h/local-storage :foo)))
-
-(assoc! h/local-storage val :foo)
-(assert (= :foo (get h/local-storage val)))
-
+(print "Dates can be stored, retrieved and deleted")
 (def date (js/Date.))
-(assoc! h/local-storage :date date)
+; insert
+(assoc! local-storage {:foo :bar} date)
+(assert (= 1 (count local-storage)))
+(assert (contains? local-storage {:foo :bar}))
+; fetch
+(assert (= date (get local-storage {:foo :bar})))
+; delete
+(dissoc! local-storage {:foo :bar})
+(assert (= 0 (count local-storage)))

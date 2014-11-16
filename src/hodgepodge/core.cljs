@@ -1,15 +1,15 @@
 (ns hodgepodge.core
   (:require [cljs.reader :as reader]))
 
-(enable-console-print!)
-(set! *print-readably* false)
-
 (def local-storage js/localStorage)
 (def session-storage js/sessionStorage)
 
-(def serialize pr-str)
+(defn serialize [v]
+  (binding [*print-dup* true
+            *print-readably* true]
+    (pr-str v)))
 
-(def deserialize reader/read-string)
+(def deserialize (memoize reader/read-string))
 
 (defn clear! [storage] (.clear storage))
 
