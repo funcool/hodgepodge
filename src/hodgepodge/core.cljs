@@ -63,8 +63,11 @@
   ILookup
   (-lookup
     ([^js/Storage s key]
-       (-lookup s key nil))
+       (let [sk (serialize key)]
+         (when (contains-key? s sk)
+           (deserialize (get-item s sk)))))
     ([^js/Storage s key not-found]
-       (if (contains-key? s (serialize key))
-         (deserialize (get-item s (serialize key)))
-         not-found))))
+       (let [sk (serialize key)]
+         (if (contains-key? s sk)
+           (deserialize (get-item s sk))
+           not-found)))))
