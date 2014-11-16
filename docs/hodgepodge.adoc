@@ -2,21 +2,63 @@ hodgepodge
 ==========
 
 :Author: Alejandro Gómez
+:toc: left
+:numbered:
+:source-highlighter: pygments
+:pygments-style: friendly
 
 A idiomatic ClojureScript interface to HTML5 Storage.
 
 Rationale
 ---------
 
-TODO
+This library is intended as a thin wrapper around the browser's storage API for making
+it more Clojurey. Furthermore, it extends the Storage type for treating storage like
+a transient map for storing and retrieving ClojureScript data structures.
 
 Alternatives
 ~~~~~~~~~~~~
 
-TODO
+- The storage-atom library provides an atom backed by local or session storage: https://github.com/alandipert/storage-atom
 
 Installation
 ------------
+
+Leiningen
+~~~~~~~~~
+
+The simplest way to use +hodgepodge+ in a Clojure project is by including
+it as a dependency in your *_project.clj_*:
+
+[source,clojure]
+----
+[hodgepodge "0.1-SNAPSHOT"]
+----
+
+
+Maven
+~~~~~
+
+Also, you can use it with Maven. First, add the Clojars repository:
+
+[source,xml]
+----
+<repository>
+    <id>clojars.org</id>
+    <url>http://clojars.org/repo</url>
+</repository>
+----
+
+Then for +hodgepodge+:
+
+[source,xml]
+----
+<dependency>
+    <groupId>hodgepodge</groupId>
+    <artifactId>hodgepodge</artifactId>
+    <version>0.1-SNAPSHOT</version>
+</dependency>
+----
 
 Storages
 --------
@@ -84,21 +126,50 @@ Low-level API
 Transient storage
 -----------------
 
-Besides the low-level, raw-string API storages implement several ClojureScript core protocols.
+Besides the low-level, raw-string API, storages implement several ClojureScript core protocols. The keys and values
+that are inserted in the storage are serialized with +pr-str+ and deserialized with the reader.
 
-They can be treated as an +ITransientAssociative+, thus supporting +assoc!+.
+Storages can be treated as an +ITransientAssociative+ and +ITransientMap+, thus supporting +assoc!+ and +dissoc!+. They
+also implement +ICounted+ so you can use +count+ on them.
 
 [source,Clojure]
 ----
-(require '[hodgepodge.core :refer [local-storage]])
+(require '[hodgepodge.core :refer [local-storage clear!]])
 
+(clear! local-storage)
 (def val {:bar 42 :timestamp (js/Date.)})
 (assoc! local-storage :foo val)
-(assert (= val (get local-storage :foo)))
+(count local-storage)
+;; => 1
 
-(assoc! local-storage val :foo)
-(assert (= :foo (get local-storage val)))
+(dissoc! local-storage :foo)
+(count local-storage)
+;; => 0
 ----
+
+The implementation of the +ILookup+ protocol let's us extract values from the storage.
+
+[source,Clojure]
+----
+(require '[hodgepodge.core :refer [local-storage clear!]])
+
+(clear! local-storage)
+(assoc! local-storage :foo {:bar 42})
+(get local-storage :foo)
+;; => {:bar 42}
+
+(dissoc! local-storage :foo)
+(count local-storage)
+(get local-storage :foo :missing)
+;; => :missing
+----
+
+Storing and retrieving custom data types
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TODO Extending the reader with tagger literals
 
 License
 -------
+
+Licensed under the BSD 2-clause license. Copyright (c) 2014, Alejandro Gómez.
