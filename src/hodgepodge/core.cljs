@@ -8,39 +8,39 @@
 (def session-storage js/sessionStorage)
 
 (defn contains-key?
-  [storage key]
+  [^Storage storage ^string key]
   (let [ks (.keys js/Object storage)
         idx (.indexOf ks key)]
     (>= idx 0)))
 
 (defn get-item
-  ([storage key]
+  ([^Storage storage ^string key]
      (get-item storage key nil))
-  ([storage key default]
+  ([^Storage storage ^string key ^string default]
      (if (contains-key? storage key)
        (.getItem storage key)
        default)))
 
 (defn set-item
-  [storage key val]
+  [^Storage storage ^string key ^string val]
   (.setItem storage key val))
 
 (defn remove-item
-  [storage key]
+  [^Storage storage ^string key]
   (.removeItem storage key))
 
 (defn length
-  [storage]
+  [^Storage storage]
   (.-length storage))
 
-(defn clear! [storage]
+(defn clear!
+  [^Storage storage]
   (.clear storage))
 
 ; Transient storage
 
 (defn serialize [v]
-  (binding [*print-dup* true
-            *print-readably* true]
+  (binding [*print-dup* true]
     (pr-str v)))
 
 (def deserialize
@@ -48,22 +48,22 @@
 
 (extend-type js/Storage
   ICounted
-  (-count [s]
+  (-count [^Storage s]
     (length s))
 
   ITransientAssociative
-  (-assoc! [s key val]
+  (-assoc! [^Storage s key val]
     (set-item s (serialize key) (serialize val)))
 
   ITransientMap
-  (-dissoc! [s key]
+  (-dissoc! [^Storage s key]
     (remove-item s (serialize key)))
 
   ILookup
   (-lookup
-    ([s key]
+    ([^Storage s key]
        (-lookup s key nil))
-    ([s key not-found]
+    ([^Storage s key not-found]
        (if (contains-key? s (serialize key))
          (deserialize (get-item s (serialize key)))
          not-found))))
