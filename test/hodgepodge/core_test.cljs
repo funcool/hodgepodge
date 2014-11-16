@@ -33,3 +33,20 @@
 ; delete
 (dissoc! local-storage {:foo :bar})
 (assert (= 0 (count local-storage)))
+
+; FIXME: keywords don't get pr-ed propperly
+; (print (pr-str :foo))
+;(print "Nested maps with multiple data structures can be stored, retrieved and deleted")
+;(def v {:bar 42
+;        :foo {:baz (js/Date.)
+;              :frob :qwerty
+;              :nyan #{1 2 3}}})
+;; insert
+;(assoc! local-storage :fri v)
+;(assert (= 1 (count local-storage)))
+;(assert (contains? local-storage :fri))
+;; fetch
+;(assert (= v (get local-storage :fri)))
+;; delete
+;(dissoc! local-storage :fri)
+;(assert (= 0 (count local-storage)))

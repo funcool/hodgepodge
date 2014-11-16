@@ -1,76 +1,69 @@
 (ns hodgepodge.core
   (:require [cljs.reader :as reader]))
 
+
+; Crude storage API
+
 (def local-storage js/localStorage)
 (def session-storage js/sessionStorage)
+
+(defn contains-key?
+  [storage key]
+  (let [ks (.keys js/Object storage)
+        idx (.indexOf ks key)]
+    (>= idx 0)))
+
+(defn get-item
+  ([storage key]
+     (get-item storage key nil))
+  ([storage key default]
+     (if (contains-key? storage key)
+       (.getItem storage key)
+       default)))
+
+(defn set-item
+  [storage key val]
+  (.setItem storage key val))
+
+(defn remove-item
+  [storage key]
+  (.removeItem storage key))
+
+(defn length
+  [storage]
+  (.-length storage))
+
+(defn clear! [storage]
+  (.clear storage))
+
+; Transient storage
 
 (defn serialize [v]
   (binding [*print-dup* true
             *print-readably* true]
     (pr-str v)))
 
-(def deserialize (memoize reader/read-string))
-
-(defn clear! [storage] (.clear storage))
-
-(defn has-key?
-  [storage key]
-  (let [ks (.keys js/Object storage)
-        idx  (.indexOf ks (serialize key))]
-    (>= idx 0)))
+(def deserialize
+  (memoize reader/read-string))
 
 (extend-type js/Storage
   ICounted
   (-count [s]
-    (.-length s))
+    (length s))
 
   ITransientAssociative
   (-assoc! [s key val]
-    (.setItem s (serialize key) (serialize val)))
-  ; TODO: contains-key? for transient associatives
+    (set-item s (serialize key) (serialize val)))
 
   ITransientMap
   (-dissoc! [s key]
-    (.removeItem s (serialize key)))
+    (remove-item s (serialize key)))
 
   ILookup
   (-lookup
     ([s key]
        (-lookup s key nil))
     ([s key not-found]
-       (if (has-key? s key)
-         (deserialize (.getItem s (serialize key)))
-         not-found)))
-)
-
- (comment
-  (clear! local-storage)
-  (clear! session-storage)
-
-  (assert (= 0 (count local-storage)))
-  (assert (= 0 (count session-storage)))
-
-  (assoc! local-storage :foo :bar)
-  (assert (= 1 (count local-storage)))
-  (assert (contains? local-storage :foo))
-  (assert (= 0 (count session-storage)))
-
-  (dissoc! local-storage :foo)
-  (assert (= 0 (count local-storage)))
-  (assert (= 0 (count session-storage)))
-
-  (assoc! local-storage {:foo :bar} (js/Date.))
-  (assert (= 1 (count local-storage)))
-  (assert (contains? local-storage {:foo :bar}))
-  (assert (= 0 (count session-storage)))
-
-  (def val {:bar 42 :timestamp {:bar (js/Date.) :baz :safd :frob #{1 2 3}}})
-  (assoc! local-storage :foo val)
-  (assert (= val (get local-storage :foo)))
-
-  (assoc! local-storage val :foo)
-  (assert (= :foo (get local-storage val)))
-
-  (def date (js/Date.))
-  (assoc! local-storage :date date)
-)
+       (if (contains-key? s (serialize key))
+         (deserialize (get-item s (serialize key)))
+         not-found))))
