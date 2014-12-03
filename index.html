@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.1">
+<meta name="generator" content="Asciidoctor 1.5.2">
 <title>hodgepodge</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
 /* Remove the comments around the @import statement below when using this as a custom stylesheet */
-/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400";*/
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400";*/
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block}
 audio:not([controls]){display:none;height:0}
@@ -274,8 +274,8 @@ dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
 ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
 ul.unstyled,ol.unnumbered,ul.checklist,ul.none{list-style-type:none}
 ul.unstyled,ol.unnumbered,ul.checklist{margin-left:.625em}
-ul.checklist li>p:first-child>.fa-check-square-o:first-child,ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
-ul.checklist li>p:first-child>input[type="checkbox"]:first-child{position:relative;top:1px}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1em;font-size:.85em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{width:1em;position:relative;top:1px}
 ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
 ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
 ul.inline>li>*{display:block}
@@ -427,7 +427,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>This library is intended as a thin wrapper around the browser&#8217;s storage API for making
 it more Clojurey. Furthermore, it extends the Storage type for treating storage like
-a transient map for storing and retrieving ClojureScript data structures.</p>
+a transient map for inserting and retrieving ClojureScript data structures.</p>
+</div>
+<div class="paragraph">
+<p>The serialization is done via <code>pr-str</code> and it uses the reader for deserializing strings
+into ClojureScript or JavaScript data structures.</p>
 </div>
 <div class="sect2">
 <h3 id="_alternatives">1.1. Alternatives</h3>
@@ -591,7 +595,7 @@ also implement <code>ICounted</code> so you can use <code>count</code> on them.<
 
 <span class="tok-p">(</span><span class="tok-nf">clear!</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
 <span class="tok-p">(</span><span class="tok-nf">assoc!</span> <span class="tok-nv">local-storage</span> <span class="tok-ss">:foo</span> <span class="tok-p">{</span><span class="tok-ss">:bar</span> <span class="tok-mi">42</span><span class="tok-p">})</span>
-<span class="tok-p">(</span><span class="tok-nb">get </span><span class="tok-nv">local-storage</span> <span class="tok-ss">:foo</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-ss">:foo</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
 <span class="tok-c1">;; =&gt; {:bar 42}</span>
 
 <span class="tok-p">(</span><span class="tok-nf">dissoc!</span> <span class="tok-nv">local-storage</span> <span class="tok-ss">:foo</span><span class="tok-p">)</span>
@@ -603,7 +607,72 @@ also implement <code>ICounted</code> so you can use <code>count</code> on them.<
 <div class="sect2">
 <h3 id="_storing_and_retrieving_custom_data_types">5.1. Storing and retrieving custom data types</h3>
 <div class="paragraph">
-<p>TODO Extending the reader with tagger literals</p>
+<p>Since storage serialization is done with <code>pr-str</code>, we can make a custom type serializable
+implementing the <code>cljs.core/IPrintWithWriter</code> protocol and making it output a tagged literal.</p>
+</div>
+<div class="paragraph">
+<p>For a contrived example, let&#8217;s implement a <code>Action</code> type which is of a ceratin kind and
+has a payload associated with it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-kd">deftype </span><span class="tok-nv">Action</span> <span class="tok-p">[</span><span class="tok-nv">kind</span> <span class="tok-nv">payload</span><span class="tok-p">]</span>
+  <span class="tok-nv">IEquiv</span>
+  <span class="tok-p">(</span><span class="tok-nf">-equiv</span> <span class="tok-p">[</span><span class="tok-nv">_</span> <span class="tok-nv">other</span><span class="tok-p">]</span>
+    <span class="tok-p">(</span><span class="tok-nb">and </span><span class="tok-p">(</span><span class="tok-nb">instance? </span><span class="tok-nv">Action</span> <span class="tok-nv">other</span><span class="tok-p">)</span>
+         <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">kind</span> <span class="tok-p">(</span><span class="tok-nf">.-kind</span> <span class="tok-nv">other</span><span class="tok-p">))</span>
+         <span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">payload</span> <span class="tok-p">(</span><span class="tok-nf">.-payload</span> <span class="tok-nv">other</span><span class="tok-p">)))))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>First, we are going to make its representation a tagged literal.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">extend-type</span> <span class="tok-nv">Action</span>
+  <span class="tok-nv">IPrintWithWriter</span>
+  <span class="tok-p">(</span><span class="tok-nf">-pr-writer</span> <span class="tok-p">[</span><span class="tok-nv">_</span> <span class="tok-nv">writer</span> <span class="tok-nv">_</span><span class="tok-p">]</span>
+    <span class="tok-p">(</span><span class="tok-nf">-write</span> <span class="tok-nv">writer</span> <span class="tok-p">(</span><span class="tok-nb">str </span><span class="tok-s">&quot;#action \&quot;&quot;</span>
+                         <span class="tok-p">(</span><span class="tok-nb">pr-str </span><span class="tok-p">{</span><span class="tok-ss">:kind</span> <span class="tok-nv">kind</span> <span class="tok-ss">:payload</span> <span class="tok-nv">payload</span><span class="tok-p">})</span>
+                         <span class="tok-s">&quot;\&quot;&quot;</span><span class="tok-p">))))</span>
+
+<span class="tok-p">(</span><span class="tok-nf">enable-console-print!</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">print </span><span class="tok-p">(</span><span class="tok-nf">Action.</span> <span class="tok-ss">:write-code</span> <span class="tok-p">{</span><span class="tok-ss">:language</span> <span class="tok-ss">:clojurescript</span><span class="tok-p">}))</span>
+<span class="tok-c1">; #action &quot;{:kind :write-code, :payload {:language :clojurescript}}&quot;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now that our type is serializable we can make it deserializable by writing a function
+that is able to read its literals and create an instance of <code>Action</code>. After doing this
+we will extend the reader to be able to read our custom type&#8217;s tagged literals.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">require</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-nv">cljs.reader</span> <span class="tok-ss">:as</span> <span class="tok-nv">reader</span><span class="tok-p">])</span>
+
+<span class="tok-p">(</span><span class="tok-kd">defn </span><span class="tok-nv">read-action</span>
+  <span class="tok-p">[</span><span class="tok-nv">a</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-k">let </span><span class="tok-p">[</span><span class="tok-nv">values</span> <span class="tok-p">(</span><span class="tok-nf">reader/read-string</span> <span class="tok-nv">a</span><span class="tok-p">)]</span>
+    <span class="tok-p">(</span><span class="tok-nf">Action.</span> <span class="tok-p">(</span><span class="tok-ss">:kind</span> <span class="tok-nv">values</span><span class="tok-p">)</span> <span class="tok-p">(</span><span class="tok-ss">:payload</span> <span class="tok-nv">values</span><span class="tok-p">))))</span>
+
+<span class="tok-p">(</span><span class="tok-nf">reader/register-tag-parser!</span> <span class="tok-s">&quot;action&quot;</span> <span class="tok-nv">read-action</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we&#8217;re able to store and retrieve actions from storages and to use them as keys.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">require</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-nv">hodgepodge.core</span> <span class="tok-ss">:as</span> <span class="tok-nv">h</span><span class="tok-p">])</span>
+
+<span class="tok-p">(</span><span class="tok-k">def </span><span class="tok-nv">a</span> <span class="tok-p">(</span><span class="tok-nf">Action.</span> <span class="tok-ss">:write-code</span> <span class="tok-p">{</span><span class="tok-ss">:language</span> <span class="tok-ss">:clojure</span><span class="tok-p">}))</span>
+
+<span class="tok-p">(</span><span class="tok-nf">assoc!</span> <span class="tok-nv">h/local-storage</span> <span class="tok-ss">:action</span> <span class="tok-nv">a</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">assert </span><span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-nv">a</span> <span class="tok-p">(</span><span class="tok-ss">:action</span> <span class="tok-nv">h/local-storage</span><span class="tok-p">)))</span>
+
+<span class="tok-p">(</span><span class="tok-nf">assoc!</span> <span class="tok-nv">h/local-storage</span> <span class="tok-nv">a</span> <span class="tok-ss">:action</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nb">assert </span><span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-ss">:action</span> <span class="tok-p">(</span><span class="tok-nb">get </span><span class="tok-nv">h/local-storage</span> <span class="tok-nv">a</span><span class="tok-p">)))</span></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -619,7 +688,7 @@ also implement <code>ICounted</code> so you can use <code>count</code> on them.<
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-11-16 16:14:03 CET
+Last updated 2014-12-03 00:30:38 UTC
 </div>
 </div>
 </body>
