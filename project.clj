@@ -6,6 +6,8 @@
   :source-paths ["src"]
   :dependencies [[org.clojure/clojurescript "0.0-2371"]
                  [org.clojure/clojure "1.6.0"]]
+  :scm {:name "git"
+        :url "https://github.com/dialelo/hodgepodge"}
   :hooks [leiningen.cljsbuild]
   :plugins [[lein-cljsbuild "1.0.3"]]
   :cljsbuild {:builds {:main
