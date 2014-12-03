@@ -58,7 +58,8 @@
 
   ITransientCollection
   (-conj! [^js/Storage s ^IMapEntry kv]
-    (assoc! s (key kv) (key kv)))
+    (assoc! s (key kv) (val kv)))
+
   (-persistent! [^js/Storage s]
     (into {}
           (for [i (range (count s))
@@ -73,9 +74,7 @@
   ILookup
   (-lookup
     ([^js/Storage s key]
-       (let [sk (serialize key)]
-         (when (contains-key? s sk)
-           (deserialize (get-item s sk)))))
+       (-lookup s key nil))
     ([^js/Storage s key not-found]
        (let [sk (serialize key)]
          (if (contains-key? s sk)

@@ -54,3 +54,24 @@
 ; delete
 (dissoc! local-storage :fri)
 ;(assert (= 0 (count local-storage)))
+
+(print "Storages can be treated as a transient collection")
+; insert
+(conj! local-storage [:foo :bar])
+(assert (= 1 (count local-storage)))
+(assert (contains? local-storage :foo))
+; fetch
+(assert (= :bar (get local-storage :foo)))
+; delete
+(dissoc! local-storage :foo)
+(assert (= 0 (count local-storage)))
+
+(print "Storages can be converted into persistent data structures")
+
+(conj! local-storage [:foo :bar])
+(conj! local-storage [:frob {:baz 42}])
+; FIXME
+;(assert (= {:foo :bar, :frob {:baz 42}}
+;           (persistent! local-storage)))
+
+(clear! local-storage)
