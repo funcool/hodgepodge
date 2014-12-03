@@ -14,11 +14,7 @@
     </license>
   </licenses>
   <scm>
-    <connection>scm:git:git://github.com//.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com//.git</developerConnection>
-    <tag>fd7010199cf5351cae8f0d12d05c007bdb8c0969
-</tag>
-    <url>https://github.com//</url>
+    <url>https://github.com/dialelo/hodgepodge</url>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
