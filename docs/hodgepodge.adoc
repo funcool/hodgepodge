@@ -16,7 +16,7 @@ This library is intended as a thin wrapper around the browser's storage API for 
 it more Clojurey. Furthermore, it extends the Storage type for treating storage like
 a transient map for inserting and retrieving ClojureScript data structures.
 
-The serialization is done via ~pr-str~ and it uses the reader for deserializing strings
+The serialization is done via `pr-str` and it uses the reader for deserializing strings
 into ClojureScript or JavaScript data structures.
 
 Alternatives
@@ -171,10 +171,10 @@ The implementation of the +ILookup+ protocol let's us extract values from the st
 Storing and retrieving custom data types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Since storage serialization is done with ~pr-str~, we can make a custom type serializable
-implementing the ~cljs.core/IPrintWithWriter~ protocol and making it output a tagged literal.
+Since storage serialization is done with `pr-str`, we can make a custom type serializable
+implementing the `cljs.core/IPrintWithWriter` protocol and making it output a tagged literal.
 
-For a contrived example, let's implement a ~Action~ type which is of a ceratin kind and
+For a contrived example, let's implement a `Action` type which is of a ceratin kind and
 has a payload associated with it.
 
 [source,Clojure]
@@ -203,7 +203,7 @@ First, we are going to make its representation a tagged literal.
 ----
 
 Now that our type is serializable we can make it deserializable by writing a function
-that is able to read its literals and create an instance of ~Action~. After doing this
+that is able to read its literals and create an instance of `Action`. After doing this
 we will extend the reader to be able to read our custom type's tagged literals.
 
 [source,Clojure]
