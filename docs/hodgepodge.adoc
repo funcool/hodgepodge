@@ -36,7 +36,7 @@ it as a dependency in your *_project.clj_*:
 
 [source,clojure]
 ----
-[hodgepodge "0.1-SNAPSHOT"]
+[hodgepodge "0.1.0"]
 ----
 
 
@@ -60,7 +60,7 @@ Then for +hodgepodge+:
 <dependency>
     <groupId>hodgepodge</groupId>
     <artifactId>hodgepodge</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
 </dependency>
 ----
 
