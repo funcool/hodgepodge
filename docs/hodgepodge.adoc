@@ -14,7 +14,10 @@ Rationale
 
 This library is intended as a thin wrapper around the browser's storage API for making
 it more Clojurey. Furthermore, it extends the Storage type for treating storage like
-a transient map for storing and retrieving ClojureScript data structures.
+a transient map for inserting and retrieving ClojureScript data structures.
+
+The serialization is done via ~pr-str~ and it uses the reader for deserializing strings
+into ClojureScript or JavaScript data structures.
 
 Alternatives
 ~~~~~~~~~~~~
@@ -156,7 +159,7 @@ The implementation of the +ILookup+ protocol let's us extract values from the st
 
 (clear! local-storage)
 (assoc! local-storage :foo {:bar 42})
-(get local-storage :foo)
+(:foo local-storage)
 ;; => {:bar 42}
 
 (dissoc! local-storage :foo)
@@ -168,7 +171,68 @@ The implementation of the +ILookup+ protocol let's us extract values from the st
 Storing and retrieving custom data types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO Extending the reader with tagger literals
+Since storage serialization is done with ~pr-str~, we can make a custom type serializable
+implementing the ~cljs.core/IPrintWithWriter~ protocol and making it output a tagged literal.
+
+For a contrived example, let's implement a ~Action~ type which is of a ceratin kind and
+has a payload associated with it.
+
+[source,Clojure]
+----
+(deftype Action [kind payload]
+  IEquiv
+  (-equiv [_ other]
+    (and (instance? Action other)
+         (= kind (.-kind other))
+         (= payload (.-payload other)))))
+----
+
+First, we are going to make its representation a tagged literal.
+[source,Clojure]
+----
+(extend-type Action
+  IPrintWithWriter
+  (-pr-writer [_ writer _]
+    (-write writer (str "#action \""
+                         (pr-str {:kind kind :payload payload})
+                         "\""))))
+
+(enable-console-print!)
+(print (Action. :write-code {:language :clojurescript}))
+; #action "{:kind :write-code, :payload {:language :clojurescript}}"
+----
+
+Now that our type is serializable we can make it deserializable by writing a function
+that is able to read its literals and create an instance of ~Action~. After doing this
+we will extend the reader to be able to read our custom type's tagged literals.
+
+[source,Clojure]
+----
+(require '[cljs.reader :as reader])
+
+(defn read-action
+  [a]
+  (let [values (reader/read-string a)]
+    (Action. (:kind values) (:payload values))))
+
+(reader/register-tag-parser! "action" read-action)
+----
+
+Now we're able to store and retrieve actions from storages and to use them as keys.
+
+[source,Clojure]
+----
+(require '[hodgepodge.core :as h])
+
+(def a (Action. :write-code {:language :clojure}))
+
+(assoc! h/local-storage :action a)
+(assert (= a (:action h/local-storage)))
+
+(assoc! h/local-storage a :action)
+(assert (= :action (get h/local-storage a)))
+----
+
 
 License
 -------
