@@ -39,7 +39,7 @@
 (dissoc! local-storage {:foo :bar})
 (assert (= 0 (count local-storage)))
 
-; FIXME
+; FIXME: For some reason keywords get pr-ed into nil in PhantomJS
 (print "Nested maps with multiple data structures can be stored, retrieved and deleted")
 (def v {:bar 42
         :foo {:baz (js/Date.)
@@ -66,8 +66,8 @@
 (dissoc! local-storage :foo)
 (assert (= 0 (count local-storage)))
 
+; FIXME: For some reason keywords get pr-ed into nil in PhantomJS
 (print "Storages can be converted into persistent data structures")
-
 (conj! local-storage [:foo :bar])
 (conj! local-storage [:frob {:baz 42}])
 ; FIXME
