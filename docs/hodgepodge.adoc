@@ -192,9 +192,10 @@ First, we are going to make its representation a tagged literal.
 ----
 (extend-type Action
   IPrintWithWriter
-  (-pr-writer [_ writer _]
+  (-pr-writer [a writer _]
     (-write writer (str "#action \""
-                         (pr-str {:kind kind :payload payload})
+                         (pr-str {:kind (.-kind a)
+                                  :payload (.-payload a)})
                          "\""))))
 
 (enable-console-print!)
