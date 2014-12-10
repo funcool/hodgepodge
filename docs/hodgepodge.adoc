@@ -1,8 +1,6 @@
 hodgepodge
 ==========
-
-:Author: Alejandro Gómez
-:toc: left
+:toc: right
 :numbered:
 :source-highlighter: pygments
 :pygments-style: friendly
