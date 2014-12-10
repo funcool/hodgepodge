@@ -720,9 +720,10 @@ has a payload associated with it.</p>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">extend-type</span> <span class="tok-nv">Action</span>
   <span class="tok-nv">IPrintWithWriter</span>
-  <span class="tok-p">(</span><span class="tok-nf">-pr-writer</span> <span class="tok-p">[</span><span class="tok-nv">_</span> <span class="tok-nv">writer</span> <span class="tok-nv">_</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">-pr-writer</span> <span class="tok-p">[</span><span class="tok-nv">a</span> <span class="tok-nv">writer</span> <span class="tok-nv">_</span><span class="tok-p">]</span>
     <span class="tok-p">(</span><span class="tok-nf">-write</span> <span class="tok-nv">writer</span> <span class="tok-p">(</span><span class="tok-nb">str </span><span class="tok-s">&quot;#action \&quot;&quot;</span>
-                         <span class="tok-p">(</span><span class="tok-nb">pr-str </span><span class="tok-p">{</span><span class="tok-ss">:kind</span> <span class="tok-nv">kind</span> <span class="tok-ss">:payload</span> <span class="tok-nv">payload</span><span class="tok-p">})</span>
+                         <span class="tok-p">(</span><span class="tok-nb">pr-str </span><span class="tok-p">{</span><span class="tok-ss">:kind</span> <span class="tok-p">(</span><span class="tok-nf">.-kind</span> <span class="tok-nv">a</span><span class="tok-p">)</span>
+                                  <span class="tok-ss">:payload</span> <span class="tok-p">(</span><span class="tok-nf">.-payload</span> <span class="tok-nv">a</span><span class="tok-p">)})</span>
                          <span class="tok-s">&quot;\&quot;&quot;</span><span class="tok-p">))))</span>
 
 <span class="tok-p">(</span><span class="tok-nf">enable-console-print!</span><span class="tok-p">)</span>
@@ -777,7 +778,7 @@ we will extend the reader to be able to read our custom type&#8217;s tagged lite
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-12-10 22:19:33 UTC
+Last updated 2014-12-10 22:21:34 UTC
 </div>
 </div>
 </body>
