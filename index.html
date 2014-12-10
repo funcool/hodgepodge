@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.1">
+<meta name="generator" content="Asciidoctor 1.5.2">
 <title>hodgepodge</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
 /* Remove the comments around the @import statement below when using this as a custom stylesheet */
-/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400";*/
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400";*/
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block}
 audio:not([controls]){display:none;height:0}
@@ -274,8 +274,8 @@ dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
 ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
 ul.unstyled,ol.unnumbered,ul.checklist,ul.none{list-style-type:none}
 ul.unstyled,ol.unnumbered,ul.checklist{margin-left:.625em}
-ul.checklist li>p:first-child>.fa-check-square-o:first-child,ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
-ul.checklist li>p:first-child>input[type="checkbox"]:first-child{position:relative;top:1px}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1em;font-size:.85em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{width:1em;position:relative;top:1px}
 ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
 ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
 ul.inline>li>*{display:block}
@@ -408,10 +408,99 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
+<style>
+.listingblock .pygments .hll { background-color: #ffffcc }
+.listingblock .pygments  { background: #f0f0f0; }
+.listingblock .pygments .tok-c { color: #60a0b0; font-style: italic } /* Comment */
+.listingblock .pygments .tok-err { border: 1px solid #FF0000 } /* Error */
+.listingblock .pygments .tok-k { color: #007020; font-weight: bold } /* Keyword */
+.listingblock .pygments .tok-o { color: #666666 } /* Operator */
+.listingblock .pygments .tok-cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+.listingblock .pygments .tok-cp { color: #007020 } /* Comment.Preproc */
+.listingblock .pygments .tok-c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+.listingblock .pygments .tok-cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+.listingblock .pygments .tok-gd { color: #A00000 } /* Generic.Deleted */
+.listingblock .pygments .tok-ge { font-style: italic } /* Generic.Emph */
+.listingblock .pygments .tok-gr { color: #FF0000 } /* Generic.Error */
+.listingblock .pygments .tok-gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.listingblock .pygments .tok-gi { color: #00A000 } /* Generic.Inserted */
+.listingblock .pygments .tok-go { color: #888888 } /* Generic.Output */
+.listingblock .pygments .tok-gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+.listingblock .pygments .tok-gs { font-weight: bold } /* Generic.Strong */
+.listingblock .pygments .tok-gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.listingblock .pygments .tok-gt { color: #0044DD } /* Generic.Traceback */
+.listingblock .pygments .tok-kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.listingblock .pygments .tok-kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.listingblock .pygments .tok-kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.listingblock .pygments .tok-kp { color: #007020 } /* Keyword.Pseudo */
+.listingblock .pygments .tok-kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.listingblock .pygments .tok-kt { color: #902000 } /* Keyword.Type */
+.listingblock .pygments .tok-m { color: #40a070 } /* Literal.Number */
+.listingblock .pygments .tok-s { color: #4070a0 } /* Literal.String */
+.listingblock .pygments .tok-na { color: #4070a0 } /* Name.Attribute */
+.listingblock .pygments .tok-nb { color: #007020 } /* Name.Builtin */
+.listingblock .pygments .tok-nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+.listingblock .pygments .tok-no { color: #60add5 } /* Name.Constant */
+.listingblock .pygments .tok-nd { color: #555555; font-weight: bold } /* Name.Decorator */
+.listingblock .pygments .tok-ni { color: #d55537; font-weight: bold } /* Name.Entity */
+.listingblock .pygments .tok-ne { color: #007020 } /* Name.Exception */
+.listingblock .pygments .tok-nf { color: #06287e } /* Name.Function */
+.listingblock .pygments .tok-nl { color: #002070; font-weight: bold } /* Name.Label */
+.listingblock .pygments .tok-nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+.listingblock .pygments .tok-nt { color: #062873; font-weight: bold } /* Name.Tag */
+.listingblock .pygments .tok-nv { color: #bb60d5 } /* Name.Variable */
+.listingblock .pygments .tok-ow { color: #007020; font-weight: bold } /* Operator.Word */
+.listingblock .pygments .tok-w { color: #bbbbbb } /* Text.Whitespace */
+.listingblock .pygments .tok-mb { color: #40a070 } /* Literal.Number.Bin */
+.listingblock .pygments .tok-mf { color: #40a070 } /* Literal.Number.Float */
+.listingblock .pygments .tok-mh { color: #40a070 } /* Literal.Number.Hex */
+.listingblock .pygments .tok-mi { color: #40a070 } /* Literal.Number.Integer */
+.listingblock .pygments .tok-mo { color: #40a070 } /* Literal.Number.Oct */
+.listingblock .pygments .tok-sb { color: #4070a0 } /* Literal.String.Backtick */
+.listingblock .pygments .tok-sc { color: #4070a0 } /* Literal.String.Char */
+.listingblock .pygments .tok-sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+.listingblock .pygments .tok-s2 { color: #4070a0 } /* Literal.String.Double */
+.listingblock .pygments .tok-se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+.listingblock .pygments .tok-sh { color: #4070a0 } /* Literal.String.Heredoc */
+.listingblock .pygments .tok-si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+.listingblock .pygments .tok-sx { color: #c65d09 } /* Literal.String.Other */
+.listingblock .pygments .tok-sr { color: #235388 } /* Literal.String.Regex */
+.listingblock .pygments .tok-s1 { color: #4070a0 } /* Literal.String.Single */
+.listingblock .pygments .tok-ss { color: #517918 } /* Literal.String.Symbol */
+.listingblock .pygments .tok-bp { color: #007020 } /* Name.Builtin.Pseudo */
+.listingblock .pygments .tok-vc { color: #bb60d5 } /* Name.Variable.Class */
+.listingblock .pygments .tok-vg { color: #bb60d5 } /* Name.Variable.Global */
+.listingblock .pygments .tok-vi { color: #bb60d5 } /* Name.Variable.Instance */
+.listingblock .pygments .tok-il { color: #40a070 } /* Literal.Number.Integer.Long */
+</style>
 </head>
-<body class="article">
+<body class="article toc2 toc-right">
 <div id="header">
 <h1>hodgepodge</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_rationale">1. Rationale</a>
+<ul class="sectlevel2">
+<li><a href="#_alternatives">1.1. Alternatives</a></li>
+</ul>
+</li>
+<li><a href="#_installation">2. Installation</a>
+<ul class="sectlevel2">
+<li><a href="#_leiningen">2.1. Leiningen</a></li>
+<li><a href="#_maven">2.2. Maven</a></li>
+</ul>
+</li>
+<li><a href="#_storages">3. Storages</a></li>
+<li><a href="#_low_level_api">4. Low-level API</a></li>
+<li><a href="#_transient_storage">5. Transient storage</a>
+<ul class="sectlevel2">
+<li><a href="#_storing_and_retrieving_custom_data_types">5.1. Storing and retrieving custom data types</a></li>
+</ul>
+</li>
+<li><a href="#_license">6. License</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div id="preamble">
@@ -631,10 +720,9 @@ has a payload associated with it.</p>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">extend-type</span> <span class="tok-nv">Action</span>
   <span class="tok-nv">IPrintWithWriter</span>
-  <span class="tok-p">(</span><span class="tok-nf">-pr-writer</span> <span class="tok-p">[</span><span class="tok-nv">a</span> <span class="tok-nv">writer</span> <span class="tok-nv">_</span><span class="tok-p">]</span>
+  <span class="tok-p">(</span><span class="tok-nf">-pr-writer</span> <span class="tok-p">[</span><span class="tok-nv">_</span> <span class="tok-nv">writer</span> <span class="tok-nv">_</span><span class="tok-p">]</span>
     <span class="tok-p">(</span><span class="tok-nf">-write</span> <span class="tok-nv">writer</span> <span class="tok-p">(</span><span class="tok-nb">str </span><span class="tok-s">&quot;#action \&quot;&quot;</span>
-                         <span class="tok-p">(</span><span class="tok-nb">pr-str </span><span class="tok-p">{</span><span class="tok-ss">:kind</span> <span class="tok-p">(</span><span class="tok-nf">.-kind</span> <span class="tok-nv">a</span><span class="tok-p">)</span>
-                                  <span class="tok-ss">:payload</span> <span class="tok-p">(</span><span class="tok-nf">.-payload</span> <span class="tok-nv">a</span><span class="tok-p">)})</span>
+                         <span class="tok-p">(</span><span class="tok-nb">pr-str </span><span class="tok-p">{</span><span class="tok-ss">:kind</span> <span class="tok-nv">kind</span> <span class="tok-ss">:payload</span> <span class="tok-nv">payload</span><span class="tok-p">})</span>
                          <span class="tok-s">&quot;\&quot;&quot;</span><span class="tok-p">))))</span>
 
 <span class="tok-p">(</span><span class="tok-nf">enable-console-print!</span><span class="tok-p">)</span>
@@ -689,7 +777,7 @@ we will extend the reader to be able to read our custom type&#8217;s tagged lite
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-12-08 12:46:15 CET
+Last updated 2014-12-10 22:19:33 UTC
 </div>
 </div>
 </body>
