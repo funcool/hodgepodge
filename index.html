@@ -485,12 +485,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_alternatives">1.1. Alternatives</a></li>
 </ul>
 </li>
-<li><a href="#_installation">2. Installation</a>
-<ul class="sectlevel2">
-<li><a href="#_leiningen">2.1. Leiningen</a></li>
-<li><a href="#_maven">2.2. Maven</a></li>
-</ul>
-</li>
+<li><a href="#_installation">2. Installation</a></li>
 <li><a href="#_storages">3. Storages</a></li>
 <li><a href="#_low_level_api">4. Low-level API</a></li>
 <li><a href="#_transient_storage">5. Transient storage</a>
@@ -540,42 +535,13 @@ into ClojureScript or JavaScript data structures.</p>
 <div class="sect1">
 <h2 id="_installation">2. Installation</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_leiningen">2.1. Leiningen</h3>
 <div class="paragraph">
 <p>The simplest way to use <code>hodgepodge</code> in a Clojure project is by including
 it as a dependency in your <strong><em>project.clj</em></strong>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">[</span><span class="tok-nv">hodgepodge</span> <span class="tok-s">&quot;0.1.0&quot;</span><span class="tok-p">]</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_maven">2.2. Maven</h3>
-<div class="paragraph">
-<p>Also, you can use it with Maven. First, add the Clojars repository:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="xml"><span class="tok-nt">&lt;repository&gt;</span>
-    <span class="tok-nt">&lt;id&gt;</span>clojars.org<span class="tok-nt">&lt;/id&gt;</span>
-    <span class="tok-nt">&lt;url&gt;</span>http://clojars.org/repo<span class="tok-nt">&lt;/url&gt;</span>
-<span class="tok-nt">&lt;/repository&gt;</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then for <code>hodgepodge</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="xml"><span class="tok-nt">&lt;dependency&gt;</span>
-    <span class="tok-nt">&lt;groupId&gt;</span>hodgepodge<span class="tok-nt">&lt;/groupId&gt;</span>
-    <span class="tok-nt">&lt;artifactId&gt;</span>hodgepodge<span class="tok-nt">&lt;/artifactId&gt;</span>
-    <span class="tok-nt">&lt;version&gt;</span>0.1.0<span class="tok-nt">&lt;/version&gt;</span>
-<span class="tok-nt">&lt;/dependency&gt;</span></code></pre>
-</div>
+<pre class="pygments highlight"><code data-lang="clojure"><span class="tok-p">[</span><span class="tok-nv">hodgepodge</span> <span class="tok-s">&quot;0.1.1&quot;</span><span class="tok-p">]</span></code></pre>
 </div>
 </div>
 </div>
@@ -792,7 +758,7 @@ we will extend the reader to be able to read our custom type&#8217;s tagged lite
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-01-10 14:30:26 CET
+Last updated 2015-01-10 14:38:35 CET
 </div>
 </div>
 </body>
