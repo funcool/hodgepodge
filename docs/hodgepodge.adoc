@@ -26,40 +26,12 @@ Alternatives
 Installation
 ------------
 
-Leiningen
-~~~~~~~~~
-
 The simplest way to use +hodgepodge+ in a Clojure project is by including
 it as a dependency in your *_project.clj_*:
 
 [source,clojure]
 ----
-[hodgepodge "0.1.0"]
-----
-
-
-Maven
-~~~~~
-
-Also, you can use it with Maven. First, add the Clojars repository:
-
-[source,xml]
-----
-<repository>
-    <id>clojars.org</id>
-    <url>http://clojars.org/repo</url>
-</repository>
-----
-
-Then for +hodgepodge+:
-
-[source,xml]
-----
-<dependency>
-    <groupId>hodgepodge</groupId>
-    <artifactId>hodgepodge</artifactId>
-    <version>0.1.0</version>
-</dependency>
+[hodgepodge "0.1.1"]
 ----
 
 Storages
