@@ -4,7 +4,7 @@
   :license {:name "BSD (2 Clause)"
             :url "http://opensource.org/licenses/BSD-2-Clause"}
   :source-paths ["src"]
-  :dependencies [[org.clojure/clojurescript "0.0-2371"]
+  :dependencies [[org.clojure/clojurescript "0.0-2498"]
                  [org.clojure/clojure "1.6.0"]]
   :scm {:name "git"
         :url "https://github.com/dialelo/hodgepodge"}
