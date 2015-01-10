@@ -693,6 +693,20 @@ also implement <code>ICounted</code> so you can use <code>count</code> on them.<
 <span class="tok-c1">;; =&gt; :missing</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Storage objects can be transformed into persistent data structures calling <code>persistent!</code> on them.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="Clojure"><span class="tok-p">(</span><span class="tok-nf">require</span> <span class="tok-o">&#39;</span><span class="tok-p">[</span><span class="tok-nv">hodgepodge.core</span> <span class="tok-ss">:refer</span> <span class="tok-p">[</span><span class="tok-nv">local-storage</span> <span class="tok-nv">clear!</span><span class="tok-p">]])</span>
+
+<span class="tok-p">(</span><span class="tok-nf">clear!</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
+<span class="tok-p">(</span><span class="tok-nf">assoc!</span> <span class="tok-nv">local-storage</span> <span class="tok-ss">:foo</span> <span class="tok-p">{</span><span class="tok-ss">:bar</span> <span class="tok-mi">42</span><span class="tok-p">})</span>
+<span class="tok-p">(</span><span class="tok-nb">= </span><span class="tok-p">(</span><span class="tok-nf">persistent!</span> <span class="tok-nv">local-storage</span><span class="tok-p">)</span>
+   <span class="tok-p">{</span><span class="tok-ss">:foo</span> <span class="tok-p">{</span><span class="tok-ss">:bar</span> <span class="tok-mi">42</span><span class="tok-p">}})</span>
+<span class="tok-c1">;; =&gt; true</span></code></pre>
+</div>
+</div>
 <div class="sect2">
 <h3 id="_storing_and_retrieving_custom_data_types">5.1. Storing and retrieving custom data types</h3>
 <div class="paragraph">
@@ -778,7 +792,7 @@ we will extend the reader to be able to read our custom type&#8217;s tagged lite
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-12-10 22:21:34 UTC
+Last updated 2015-01-10 14:30:26 CET
 </div>
 </div>
 </body>
