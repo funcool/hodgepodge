@@ -10,14 +10,7 @@
         :url "https://github.com/dialelo/hodgepodge"}
   :hooks [leiningen.cljsbuild]
   :plugins [[lein-cljsbuild "1.0.3"]]
-  :cljsbuild {:builds {:main
-                       {:source-paths ["src"]
-                        :compiler {
-                            :output-to "hodgepodge.js"
-                            :output-dir "resources"
-                            :optimizations :none
-                            :source-map true}}
-                       :test
+  :cljsbuild {:builds {:test
                        {:source-paths ["src" "test"]
                         :compiler {
                             :output-to "resources/test/test.js"
