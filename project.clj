@@ -1,4 +1,4 @@
-(defproject hodgepodge "0.2.0-SNAPSHOT"
+(defproject hodgepodge "0.1.1"
   :description "A idiomatic ClojureScript interface to HTML5 storage"
   :url "https://github.com/dialelo/hodgepodge"
   :license {:name "BSD (2 Clause)"
