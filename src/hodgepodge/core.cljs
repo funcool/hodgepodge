@@ -65,7 +65,7 @@
           (for [i (range (count s))
                 :let [k (.key s i)
                       v (get-item s k)]]
-              [k (deserialize v)])))
+            [(deserialize k) (deserialize v)])))
 
   ITransientMap
   (-dissoc! [^js/Storage s key]

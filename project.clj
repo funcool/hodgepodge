@@ -20,7 +20,7 @@
                        :test
                        {:source-paths ["src" "test"]
                         :compiler {
-                            :output-to "test.js"
+                            :output-to "resources/test/test.js"
                             :output-dir "resources/test"
                             :optimizations :advanced}}}
               :test-commands {"unit" ["phantomjs" "resources/test/runner.js"]}})
