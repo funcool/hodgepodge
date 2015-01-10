@@ -166,6 +166,19 @@ The implementation of the +ILookup+ protocol let's us extract values from the st
 ;; => :missing
 ----
 
+Storage objects can be transformed into persistent data structures calling +persistent!+ on them.
+
+[source,Clojure]
+----
+(require '[hodgepodge.core :refer [local-storage clear!]])
+
+(clear! local-storage)
+(assoc! local-storage :foo {:bar 42})
+(= (persistent! local-storage)
+   {:foo {:bar 42}})
+;; => true
+----
+
 Storing and retrieving custom data types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
