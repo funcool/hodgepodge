@@ -16,8 +16,7 @@
                                     "resources/test/out"
                                     "resources/test/test.js"]
 
-  :profiles {:dev {:hooks [leiningen.cljsbuild]
-                   :plugins [[lein-cljsbuild "1.0.4"]]}}
+  :profiles {:dev {:plugins [[lein-cljsbuild "1.0.4"]]}}
   :cljsbuild {:builds {:test
                        {:source-paths ["src" "test"]
                         :compiler {
