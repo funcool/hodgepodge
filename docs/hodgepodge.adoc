@@ -31,7 +31,7 @@ it as a dependency in your *_project.clj_*:
 
 [source,clojure]
 ----
-[hodgepodge "0.1.2"]
+[hodgepodge "0.1.3"]
 ----
 
 Storages
