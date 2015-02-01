@@ -2,7 +2,7 @@
   (:require [cljs.reader :as reader]))
 
 
-; Crude storage API
+;; Crude storage API
 
 (def local-storage js/localStorage)
 (def session-storage js/sessionStorage)
@@ -37,7 +37,7 @@
   [^js/Storage storage]
   (.clear storage))
 
-; Transient storage
+;; Transient storage
 
 (defn serialize [v]
   (binding [*print-dup* true

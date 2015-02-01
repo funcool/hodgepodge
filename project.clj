@@ -1,6 +1,6 @@
 (defproject hodgepodge "0.1.3"
   :description "A idiomatic ClojureScript interface to HTML5 storage"
-  :url "https://github.com/dialelo/hodgepodge"
+  :url "https://github.com/funcool/hodgepodge"
   :license {:name "BSD (2 Clause)"
             :url "http://opensource.org/licenses/BSD-2-Clause"}
   :source-paths ["src"]
@@ -9,7 +9,7 @@
                  [org.clojure/clojure "1.6.0" :scope "provided"]]
 
   :scm {:name "git"
-        :url "https://github.com/dialelo/hodgepodge"}
+        :url "https://github.com/funcool/hodgepodge"}
 
   :jar-exclusions [#"^test/.*"]
   :clean-targets ^{:protect false} ["target"
