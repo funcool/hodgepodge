@@ -1,4 +1,4 @@
-(defproject hodgepodge "0.1.3"
+(defproject funcool/hodgepodge "0.1.3"
   :description "A idiomatic ClojureScript interface to HTML5 storage"
   :url "https://github.com/funcool/hodgepodge"
   :license {:name "BSD (2 Clause)"
