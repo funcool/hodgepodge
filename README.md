@@ -5,6 +5,6 @@ hodgepodge
 
 A idiomatic ClojureScript interface to local and session storage.
 
-[![Clojars Project](http://clojars.org/hodgepodge/latest-version.svg)](http://clojars.org/hodgepodge)
+[![Clojars Project](http://clojars.org/funcool/hodgepodge/latest-version.svg)](http://clojars.org/hodgepodge)
 
 **Documentation**: https://funcool.github.io/hodgepodge/
