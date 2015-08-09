@@ -23,11 +23,13 @@
 
 (defn set-item
   [^js/Storage storage ^string key ^string val]
-  (.setItem storage key val))
+  (.setItem storage key val)
+  storage)
 
 (defn remove-item
   [^js/Storage storage ^string key]
-  (.removeItem storage key))
+  (.removeItem storage key)
+  storage)
 
 (defn length
   [^js/Storage storage]
@@ -54,11 +56,13 @@
 
   ITransientAssociative
   (-assoc! [^js/Storage s key val]
-    (set-item s (serialize key) (serialize val)))
+    (set-item s (serialize key) (serialize val))
+    s)
 
   ITransientCollection
   (-conj! [^js/Storage s ^IMapEntry kv]
-    (assoc! s (key kv) (val kv)))
+    (assoc! s (key kv) (val kv))
+    s)
 
   (-persistent! [^js/Storage s]
     (into {}
@@ -69,7 +73,8 @@
 
   ITransientMap
   (-dissoc! [^js/Storage s key]
-    (remove-item s (serialize key)))
+    (remove-item s (serialize key))
+    s)
 
   ILookup
   (-lookup

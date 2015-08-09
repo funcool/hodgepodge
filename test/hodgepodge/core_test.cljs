@@ -70,3 +70,11 @@
 (conj! local-storage [:frob {:baz 42}])
 (def expected {:foo :bar, :frob {:baz 42}})
 (assert (= (persistent! local-storage) expected))
+
+(print "Storage modifying operations return the storages")
+(clear! local-storage)
+(-> local-storage
+    (conj! [:foo :bar])
+    (conj! [:frob {:baz 42}]))
+(def expected {:foo :bar, :frob {:baz 42}})
+(assert (= (persistent! local-storage) expected))
