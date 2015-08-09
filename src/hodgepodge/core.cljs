@@ -1,7 +1,6 @@
 (ns hodgepodge.core
   (:require [cljs.reader :as reader]))
 
-
 ;; Crude storage API
 
 (def local-storage js/localStorage)
